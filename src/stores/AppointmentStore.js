@@ -3,7 +3,19 @@ import Dispatcher from '../dispatcher';
 import ActionTypes from '../constants';
 
 const CHANGE = 'CHANGE';
-let _appointmentsState = [{time: "8 AM", name: "asdf", phoneNumber: "574-9083"}, {time: "8 AM", name: "", phoneNumber: ""}, {time: "8 AM", name: "", phoneNumber: ""},];
+// Initialize appointment state
+let _appointmentsState = [
+  {time: "8 AM", name: "", phoneNumber: ""},
+  {time: "9 AM", name: "", phoneNumber: ""},
+  {time: "10 AM", name: "", phoneNumber: ""},
+  {time: "11 AM", name: "", phoneNumber: ""},
+  {time: "12 PM", name: "", phoneNumber: ""},
+  {time: "1 PM", name: "", phoneNumber: ""},
+  {time: "2 PM", name: "", phoneNumber: ""},
+  {time: "3 PM", name: "", phoneNumber: ""},
+  {time: "4 PM", name: "", phoneNumber: ""},
+  {time: "5 PM", name: "", phoneNumber: ""},
+];
 
 class AppointmentStore extends EventEmitter {
   constructor() {
@@ -16,11 +28,15 @@ class AppointmentStore extends EventEmitter {
     switch(action.actionType) {
       case ActionTypes.SET_APPOINTMENT:
         this._setAppointment(action.payload);
-      break
+        break
+
+      default:
+        break
     }
   }
 
   _setAppointment(apptDetails) {
+    // find appointment matching time of appointment in payload
     let appointment = _appointmentsState.find((appt) => {
       return appt.time === apptDetails.time;
     });

@@ -1,4 +1,5 @@
 import React from 'react';
+import ListGroup from 'react-bootstrap/ListGroup';
 import AppointmentStore from '../stores/AppointmentStore';
 import AppointmentModal from './AppointmentModal';
 
@@ -16,11 +17,10 @@ class AppointmentList extends React.Component {
   }
 
   _handleShowModal(apptDetails) {
-    console.log("modal hanlder ran");
     this.setState({
       showModal: true,
       currentAppointment: {time: apptDetails.time, name: apptDetails.name, phoneNumber: apptDetails.phoneNumber}
-    }, () => {console.log(this.state);});
+    });
   }
 
   _handleCloseModal() {
@@ -45,13 +45,20 @@ class AppointmentList extends React.Component {
 
     return (
       <div>
-        <ul>
+        <ListGroup>
           { this.state.appointments.map((appt) => {
-            return (<li onClick={() => {this._handleShowModal(appt)}}><span>{ appt.time }</span></li>);
+            return (<ListGroup.Item action variant={
+              // switch list item variant to "danger" if either the name or phone number is filled out, set to default otherwise
+              appt.name === "" && appt.phoneNumber === "" ? "" : "danger"
+            } onClick={() => {this._handleShowModal(appt)}}><span>{ appt.time }</span></ListGroup.Item>);
           })}
-        </ul>
-        <button onClick={this._handleShowModal}>click me</button>
-        <AppointmentModal time={this.state.currentAppointment.time} name={this.state.currentAppointment.name} phoneNumber={this.state.currentAppointment.phoneNumber} show={this.state.showModal} onHide={this._handleCloseModal}>
+        </ListGroup>
+        <AppointmentModal
+          time={this.state.currentAppointment.time}
+          name={this.state.currentAppointment.name}
+          phoneNumber={this.state.currentAppointment.phoneNumber}
+          show={this.state.showModal}
+          onHide={this._handleCloseModal}>
         </AppointmentModal>
       </div>
   )

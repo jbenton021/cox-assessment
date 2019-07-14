@@ -17,12 +17,13 @@ class AppointmentModal extends React.Component {
   }
 
   _updateState(event) {
+    // update state appropriately whenever the onChange event in either text field fires
     let field = event.target.name;
     let value = event.target.value;
     let currentAppointment = this.state.appointment
 
     currentAppointment[field] = value;
-    this.setState({ appointment: {time: this.props.time, name: currentAppointment.name, phoneNumber: currentAppointment.phoneNumber }}, () => {console.log(this.state.appointment)});
+    this.setState({ appointment: {time: this.props.time, name: currentAppointment.name, phoneNumber: currentAppointment.phoneNumber }});
   }
 
   _setAppointment(event) {
@@ -37,15 +38,21 @@ class AppointmentModal extends React.Component {
     return (
       <Modal show={this.props.show} onHide={this.props.onHide}>
         <Modal.Body>
+          <Modal.Header>
+            <strong>{this.props.time} Appointment</strong>
+          </Modal.Header>
           <Form onSubmit={e => this._setAppointment(e)}>
-            <Form.Control name="name" placeholder={this.props.name} value={this.state.appointment.name} onChange={e => this._updateState(e)}/>
-            <Form.Control name="phoneNumber" placeholder={this.props.phoneNumber} value={this.state.appointment.phoneNumber} onChange={e => this._updateState(e)}/>
-            <Button type="submit">
+            <Form.Label>Name</Form.Label>
+            <Form.Control name="name" placeholder={this.props.name} onChange={e => this._updateState(e)}/>
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control name="phoneNumber" placeholder={this.props.phoneNumber} onChange={e => this._updateState(e)}/>
+            <Button type="submit" id="submitButton">
               Submit
             </Button>
-
+            <Button variant="secondary" id="closeButton" onClick={this.props.onHide}>
+              Close
+            </Button>
           </Form>
-          {this.props.time}, {this.props.name}, {this.props.phoneNumber}
         </Modal.Body>
       </Modal>
     )
